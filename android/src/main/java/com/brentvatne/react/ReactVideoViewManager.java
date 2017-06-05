@@ -75,27 +75,44 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
 
     @ReactProp(name = PROP_SRC)
     public void setSrc(final ReactVideoView videoView, @Nullable ReadableMap src) {
-        int mainVer = src.getInt(PROP_SRC_MAINVER);
-        int patchVer = src.getInt(PROP_SRC_PATCHVER);
-        if(mainVer<0) { mainVer = 0; }
-        if(patchVer<0) { patchVer = 0; }
+         final int mainVer = src.getInt(PROP_SRC_MAINVER) < 0 ? 0 : src.getInt(PROP_SRC_MAINVER) ;
+        final int patchVer = src.getInt(PROP_SRC_PATCHVER) < 0 ? 0 : src.getInt(PROP_SRC_PATCHVER) ;
+        final String uri = src.getString(PROP_SRC_URI);
+        final String type = src.getString(PROP_SRC_TYPE);
+        final boolean is_network = src.getBoolean(PROP_SRC_IS_NETWORK);
+        final boolean is_asset =  src.getBoolean(PROP_SRC_IS_ASSET);
         if(mainVer>0) {
-            videoView.setSrc(
-                    src.getString(PROP_SRC_URI),
-                    src.getString(PROP_SRC_TYPE),
-                    src.getBoolean(PROP_SRC_IS_NETWORK),
-                    src.getBoolean(PROP_SRC_IS_ASSET),
-                    mainVer,
-                    patchVer
-            );
+            //update by sin,fix slowly!
+            Thread thread = new Thread() {
+                @Override
+                public void run(){
+                    videoView.setSrc(
+                            uri,
+                            type,
+                            is_network,
+                            is_asset,
+                            mainVer,
+                            patchVer
+                    );
+                }
+
+            };
+            thread.start();
         }
         else {
-            videoView.setSrc(
-                    src.getString(PROP_SRC_URI),
-                    src.getString(PROP_SRC_TYPE),
-                    src.getBoolean(PROP_SRC_IS_NETWORK),
-                    src.getBoolean(PROP_SRC_IS_ASSET)
-            );
+            Thread thread = new Thread() {
+                @Override
+                public void run(){
+                    videoView.setSrc(
+                            uri,
+                            type,
+                            is_network,
+                            is_asset
+                    );
+                }
+
+            };
+            thread.start();
         }
     }
 
