@@ -540,13 +540,15 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
     protected void onAttachedToWindow() {
 
         super.onAttachedToWindow();
-
-        if(mMainVer>0) {
+       // update by sin ,remove superfluous code.fix slowly!
+       
+       /* if(mMainVer>0) {
             setSrc(mSrcUriString, mSrcType, mSrcIsNetwork,mSrcIsAsset,mMainVer,mPatchVer);
         }
         else {
             setSrc(mSrcUriString, mSrcType, mSrcIsNetwork,mSrcIsAsset);
         }
+        */
 
     }
 
