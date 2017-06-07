@@ -370,13 +370,20 @@ static NSString *const timedMetadata = @"timedMetadata";
           height = [NSNumber numberWithFloat:videoTrack.naturalSize.height];
           CGAffineTransform preferredTransform = [videoTrack preferredTransform];
 
-          if ((videoTrack.naturalSize.width == preferredTransform.tx
-            && videoTrack.naturalSize.height == preferredTransform.ty)
-            || (preferredTransform.tx == 0 && preferredTransform.ty == 0))
-          {
-            orientation = @"landscape";
-          } else
-            orientation = @"portrait";
+          if (videoTrack.naturalSize.width > videoTrack.naturalSize.height )
+            {
+                if(preferredTransform.a == 0 && preferredTransform.b == 1.0
+                   && preferredTransform.c == -1.0 && preferredTransform.d == 0)
+                {
+                    orientation = @"portrait";
+                }else if(preferredTransform.a == 0 && preferredTransform.b == -1.0 && preferredTransform.c == 1.0 && preferredTransform.d == 0)  {
+                    orientation = @"portrait";
+                }else{
+                    orientation = @"landscape";
+                }
+            } else {
+                orientation = @"portrait";
+            }
         }
 
       if(self.onVideoLoad) {
